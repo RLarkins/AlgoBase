@@ -23,6 +23,7 @@ def view():
         redirect(URL('view', args=algo.id))
     return dict(algo=algo, form=form, comments=comments)
 
+@auth.requires_login()
 def add():
     form = SQLFORM(db.algorithm)
     if form.process().accepted:

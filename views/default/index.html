@@ -2,7 +2,11 @@
 
 <h1>Welcome to AlgoBase</h1>
 <h3>A database of algorithms</h3>
-
+{{if auth.is_logged_in() == False:}}
+	{{=A("Sign in ", _href=URL("user"))}}
+ /
+	{{=A("Sign up", _href=URL("user", args='register'))}}
+{{pass}}
 <p>This is a work in progress. We apologize for any inconveniences.</p>
 <br/>
 {{for algo in algos:}}
