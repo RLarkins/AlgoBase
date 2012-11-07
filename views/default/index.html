@@ -1,0 +1,13 @@
+{{extend 'layout.html'}}
+
+<h1>Welcome to AlgoBase</h1>
+<h3>A database of algorithms</h3>
+
+<p>This is a work in progress. We apologize for any inconveniences.</p>
+<br/>
+{{for algo in algos:}}
+    {{=LI(A(algo.name, _href=URL("view", args=algo.id)))}}
+{{pass}}
+<br/>
+
+<p>Click <a href="add.html">here</a> to add an Algorithm.</p>
