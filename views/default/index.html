@@ -1,10 +1,11 @@
-{{extend 'layout.html'}}
+{{extend 'layout2.html'}}
 
 <style>
 
 
     #top{
         height: 33%;
+        overflow-y: auto;
     }
     
     #headerz{
@@ -26,15 +27,16 @@
     #bottom{
         clear: both;
         height: 100%;
-        border-style: dotted;
-        border-width: 0px 0px 3px 0px;
         text-align: center;
+        border-style: dotted;
+        border-width: 3px 0px 0px 0px;
+        overflow-y: auto;
     }
     
     #leftside{
-        padding: 25px 0px 25px 00px;
         float: left;
         width: 33%;
+        padding: 25px 0px 25px 00px;
     }
     
     #rightside{
@@ -48,33 +50,51 @@
         margin: 25px 25px 25px 25px;
         border-style: dotted;
         border-width: 1px 1px 1px 1px;
+        overflow: auto;						<!-- Ahhhhh! If you don't want the border to magically collapse put overflow: auto. It expands to fit the content-->
+    }
+    
+    #nav1{
+        float: left;
+        padding: 5px;
+    }
+    
+    #nav2{
+        float: right;
+        padding: 5px;
     }
     
     #news{
         margin: 25px 25px 25px 25px;
+        padding: 0px 10px 10px 10px;
+        height: 150px;
         border-style: dotted;
         border-width: 1px 1px 1px 1px;
+        overflow-y: scroll;
     }
     
     #lastpost{
         float: left;
         width:55%;
+        height: 75px;
+        margin: 0px 0px 25px 25px;
         border-style: dotted;
-        margin: 0px 0px 0px 25px;
         border-width: 1px 1px 1px 1px;
+        overflow-y: scroll;
     }
     
      #whoseonline{
         float: right;
         width: 35%;
+        height: 75px;
+        margin: 0px 25px 0px 0px;
         border-style: dotted;
-		margin: 0px 25px 0px 0px;
         border-width: 1px 1px 1px 1px;
+        overflow-y: scroll;
     }
 </style>
 
 <div id='top'>
-    <div id='logo'>LOGO GOES HERE{{=IMG(_src='algobase-logo.png')}}</div>
+    <div id='logo'>LOGO HERE{{=IMG(_src='algobase-logo.png')}}</div>
     <div id='headerz'>
         <h1>Welcome to AlgoBase</h1>
 		<h3>A database of algorithms</h3>    
@@ -85,22 +105,25 @@
     
 <div id='bottom'>
 	<div id='leftside'>
-	        LIST OF ALGOS:
+        	LIST OF ALGOS/SEARCH HERE
 
-<br/>
-{{for algo in algos:}}
-    {{=LI(A(algo.name, _href=URL("view", args=algo.id)))}}
-{{pass}}
-<br/>
-<p>Click <a href="add.html">here</a> to add an Algorithm.</p>
+			<br/>
+			{{for algo in algos:}}
+    			{{=LI(A(algo.name, _href=URL("view", args=algo.id)))}}
+			{{pass}}
+			<br/>
+			<p>Click <a href="add.html">here</a> to add an Algorithm.</p>
 	</div>
     <div id='rightside'>
     	<div id='nav'>
-    		{{if auth.is_logged_in() == False:}}
-            	{{=A("Sign in ", _href=URL("user"))}}
- 				/
-				{{=A("Sign up", _href=URL("user", args='register'))}}
-			{{pass}}
+            <div id='nav1'>NAV HERE</div>
+            <div id='nav2'>
+    			{{if auth.is_logged_in() == False:}}
+            		{{=A("Sign in ", _href=URL("user"))}}
+ 					/
+					{{=A("Sign up", _href=URL("user", args='register'))}}
+				{{pass}}
+        	</div>
         </div>
         <div id='news'>
             <p>This is a work in progress. We apologize for any inconveniences.</p>
