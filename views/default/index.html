@@ -9,29 +9,67 @@
     
     #headerz{
         float: right;
-        width: 66%;
+        width: 65%;
         height: 100%;
+        text-align: center;
+        border-style: dotted;
+        border-width: 0px 0px 0px 3px;
     }
     
     #logo{
         float: left;
         width: 33%;
         height: 100%;
+        padding: 25px 0px 25px 00px;
     }
     
     #bottom{
-        clear:both;
+        clear: both;
+        height: 100%;
+        border-style: dotted;
+        border-width: 0px 0px 3px 0px;
+        text-align: center;
     }
     
     #leftside{
+        padding: 25px 0px 25px 00px;
         float: left;
         width: 33%;
     }
     
-   
     #rightside{
         float: right;
-        width: 66%;
+        width: 65%;
+        border-style: dotted;
+        border-width: 0px 0px 0px 3px;
+    }
+    
+    #nav{
+        margin: 25px 25px 25px 25px;
+        border-style: dotted;
+        border-width: 1px 1px 1px 1px;
+    }
+    
+    #news{
+        margin: 25px 25px 25px 25px;
+        border-style: dotted;
+        border-width: 1px 1px 1px 1px;
+    }
+    
+    #lastpost{
+        float: left;
+        width:55%;
+        border-style: dotted;
+        margin: 0px 0px 0px 25px;
+        border-width: 1px 1px 1px 1px;
+    }
+    
+     #whoseonline{
+        float: right;
+        width: 35%;
+        border-style: dotted;
+		margin: 0px 25px 0px 0px;
+        border-width: 1px 1px 1px 1px;
     }
 </style>
 
@@ -42,6 +80,7 @@
 		<h3>A database of algorithms</h3>    
 	</div>
 </div>
+
 
     
 <div id='bottom'>
@@ -56,12 +95,19 @@
 <p>Click <a href="add.html">here</a> to add an Algorithm.</p>
 	</div>
     <div id='rightside'>
-    	{{if auth.is_logged_in() == False:}}
-	{{=A("Sign in ", _href=URL("user"))}}
- /
-	{{=A("Sign up", _href=URL("user", args='register'))}}
-{{pass}}
+    	<div id='nav'>
+    		{{if auth.is_logged_in() == False:}}
+            	{{=A("Sign in ", _href=URL("user"))}}
+ 				/
+				{{=A("Sign up", _href=URL("user", args='register'))}}
+			{{pass}}
+        </div>
+        <div id='news'>
+            <p>This is a work in progress. We apologize for any inconveniences.</p>
+        </div>
+        <div id='lastpost'>Last Post</div>
+        <div id='whoseonline'>Who is online</div>
     
-    		<p>This is a work in progress. We apologize for any inconveniences.</p>
+    		
     </div>
 </div>
