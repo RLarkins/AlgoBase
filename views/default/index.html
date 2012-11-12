@@ -1,17 +1,67 @@
 {{extend 'layout.html'}}
 
-<h1>Welcome to AlgoBase</h1>
-<h3>A database of algorithms</h3>
-{{if auth.is_logged_in() == False:}}
-	{{=A("Sign in ", _href=URL("user"))}}
- /
-	{{=A("Sign up", _href=URL("user", args='register'))}}
-{{pass}}
-<p>This is a work in progress. We apologize for any inconveniences.</p>
+<style>
+
+
+    #top{
+        height: 33%;
+    }
+    
+    #headerz{
+        float: right;
+        width: 66%;
+        height: 100%;
+    }
+    
+    #logo{
+        float: left;
+        width: 33%;
+        height: 100%;
+    }
+    
+    #bottom{
+        clear:both;
+    }
+    
+    #leftside{
+        float: left;
+        width: 33%;
+    }
+    
+   
+    #rightside{
+        float: right;
+        width: 66%;
+    }
+</style>
+
+<div id='top'>
+    <div id='logo'>LOGO GOES HERE{{=IMG(_src='algobase-logo.png')}}</div>
+    <div id='headerz'>
+        <h1>Welcome to AlgoBase</h1>
+		<h3>A database of algorithms</h3>    
+	</div>
+</div>
+
+    
+<div id='bottom'>
+	<div id='leftside'>
+	        LIST OF ALGOS:
+
 <br/>
 {{for algo in algos:}}
     {{=LI(A(algo.name, _href=URL("view", args=algo.id)))}}
 {{pass}}
 <br/>
-
 <p>Click <a href="add.html">here</a> to add an Algorithm.</p>
+	</div>
+    <div id='rightside'>
+    	{{if auth.is_logged_in() == False:}}
+	{{=A("Sign in ", _href=URL("user"))}}
+ /
+	{{=A("Sign up", _href=URL("user", args='register'))}}
+{{pass}}
+    
+    		<p>This is a work in progress. We apologize for any inconveniences.</p>
+    </div>
+</div>

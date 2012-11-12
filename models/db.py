@@ -77,9 +77,15 @@ db.define_table('user',
 db.user.name.requires = IS_NOT_EMPTY()
 db.user.email.requires = IS_EMAIL()
 
+db.define_table('category',
+    Field('name', 'string'),
+    format = '%(name)s'
+)
+
 db.define_table('algorithm',
     Field('name', 'string'),
     Field('author', 'reference user'),
+    Field('category', 'reference category'),
     Field('date_created', 'datetime', default=datetime.utcnow()),
     Field('code', 'text'),
     format = '%(name)s'
