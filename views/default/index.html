@@ -107,11 +107,18 @@
 	<div id='leftside'>
         	LIST OF ALGOS/SEARCH HERE
 
-			<br/>
-			{{for algo in algos:}}
-    			{{=LI(A(algo.name, _href=URL("view", args=algo.id)))}}
-			{{pass}}
-			<br/>
+			        	LIST OF ALGOS/SEARCH HERE
+        {{for category in categories:}}
+        	<div class='categorybox'>
+        	{{=category.name}}
+                {{for algo in algos:}}
+                	{{if algo.category.name == category.name:}}
+        				{{=LI(A(algo.name, _href=URL("view", args=algo.id)), _style='display: none')}}
+        			{{pass}}
+        		{{pass}}
+        	</div>
+        {{pass}}
+        	
 			<p>Click <a href="add.html">here</a> to add an Algorithm.</p>
 	</div>
     <div id='rightside'>
@@ -134,3 +141,10 @@
     		
     </div>
 </div>
+
+<script>   
+    $('.categorybox').click( function() {
+        	$('.categorybox').children().hide('slow', function(){});
+  			$(this).children().show('slow', function(){});
+    });
+</script>

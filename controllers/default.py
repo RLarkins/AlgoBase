@@ -11,7 +11,8 @@
 
 def index():
     algos = db().select(db.algorithm.ALL)
-    return dict(algos=algos)
+    categories = db().select(db.category.name)
+    return dict(algos=algos,categories=categories)
 
 def view():
     algo = db.algorithm(request.args[0]) or redirect(URL('index'))
