@@ -38,12 +38,39 @@ response.generic_patterns = ['*'] if request.is_local else []
 ## - old style crud actions
 ## (more options discussed in gluon/tools.py)
 #########################################################################
-
+from datetime import datetime
 from gluon.tools import Auth, Crud, Service, PluginManager, prettydate
 auth = Auth(db)
 crud, service, plugins = Crud(db), Service(), PluginManager()
 
 ## create all tables needed by auth if not custom tables
+db.define_table(
+    auth.settings.table_user_name,
+    Field('username', length=128, default=''),
+    Field('email', length=128, default='', unique=True), # required
+    Field('password', 'password', length=512,            # required
+          readable=False, label='Password'),
+    Field('date_joined', 'datetime', writable=False, 
+          readable=False, default=datetime.utcnow()),
+    Field('registration_key', length=512,                # required
+          writable=False, readable=False, default=''),
+    Field('reset_password_key', length=512,              # required
+          writable=False, readable=False, default=''),
+    Field('registration_id', length=512,                 # required
+          writable=False, readable=False, default=''))
+
+## do not forget validators
+custom_auth_table = db[auth.settings.table_user_name] # get the custom_auth_table
+custom_auth_table.username.requires = \
+  IS_NOT_EMPTY(error_message=auth.messages.is_empty)
+custom_auth_table.username.requires = IS_NOT_IN_DB(db, custom_auth_table.username)
+custom_auth_table.password.requires = [IS_STRONG(), CRYPT()]
+custom_auth_table.email.requires = [
+  IS_EMAIL(error_message=auth.messages.invalid_email),
+  IS_NOT_IN_DB(db, custom_auth_table.email)]
+
+auth.settings.table_user = custom_auth_table # tell auth to use custom_auth_table
+
 auth.define_tables(username=False, signature=False)
 
 ## configure email
@@ -63,44 +90,31 @@ from gluon.contrib.login_methods.rpx_account import use_janrain
 use_janrain(auth,filename='private/janrain.key')
 
 #########################################################################
-from datetime import datetime
-
-db.define_table('user',
-    Field('name', 'string'),
-    Field('date_joined', 'datetime', default=datetime.utcnow()),
-    Field('email', 'string'),
-    Field('algorithms', 'list:reference algorithm'),
-    Field('comments', 'list:reference comment'),
-    format='%(name)s'
-)
-
-db.user.name.requires = IS_NOT_EMPTY()
-db.user.email.requires = IS_EMAIL()
 
 db.define_table('algorithm',
     Field('name', 'string'),
-    Field('author', 'reference user'),
+    Field('author', db.auth_user, default=auth.user_id),
     Field('date_created', 'datetime', default=datetime.utcnow()),
     Field('code', 'text'),
     format = '%(name)s'
 )
 
 db.algorithm.name.requires = IS_NOT_EMPTY()
-db.algorithm.author.requires = IS_IN_DB(db, db.user.id, '%(name)s')
+db.algorithm.author.readable = db.algorithm.author.writable = False
 db.algorithm.date_created.readable = db.algorithm.date_created.writable = False
 db.algorithm.code.requires = IS_NOT_EMPTY()
 
 db.define_table('comment',
-    Field('author', 'reference user'),
+    Field('author', db.auth_user, default=auth.user_id),
     Field('algorithm', 'reference algorithm'),
     Field('date_written', 'datetime', default=datetime.utcnow()),
     Field('body', 'text')
 )
 
+db.comment.author.readable = db.comment.author.writable = False
 db.comment.algorithm.readable = db.comment.algorithm.writable = False
 db.comment.date_written.readable = db.comment.date_written.writable = False
 db.comment.body.requires = IS_NOT_EMPTY()
-db.comment.author.requires = IS_IN_DB(db, db.user.id, '%(name)s')
 
 #########################################################################
 
