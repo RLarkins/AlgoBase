@@ -82,9 +82,11 @@ db.define_table('category',
     format = '%(name)s'
 )
 
+db.category.name.requires = IS_NOT_IN_DB(db, db.category.name)
+
 db.define_table('algorithm',
     Field('name', 'string'),
-    Field('author', 'reference user'),
+    #Field('author', 'reference user'),
     Field('category', 'reference category'),
     Field('date_created', 'datetime', default=datetime.utcnow()),
     Field('code', 'text'),
@@ -92,7 +94,7 @@ db.define_table('algorithm',
 )
 
 db.algorithm.name.requires = IS_NOT_EMPTY()
-db.algorithm.author.requires = IS_IN_DB(db, db.user.id, '%(name)s')
+#db.algorithm.author.requires = IS_IN_DB(db, db.user.id, '%(name)s')
 db.algorithm.date_created.readable = db.algorithm.date_created.writable = False
 db.algorithm.code.requires = IS_NOT_EMPTY()
 
