@@ -61,8 +61,7 @@ db.define_table(
 
 ## do not forget validators
 custom_auth_table = db[auth.settings.table_user_name] # get the custom_auth_table
-custom_auth_table.username.requires = \
-  IS_NOT_EMPTY(error_message=auth.messages.is_empty)
+custom_auth_table.username.requires = IS_NOT_EMPTY(error_message=auth.messages.is_empty)
 custom_auth_table.username.requires = IS_NOT_IN_DB(db, custom_auth_table.username)
 custom_auth_table.password.requires = [IS_STRONG(), CRYPT()]
 custom_auth_table.email.requires = [
@@ -108,7 +107,6 @@ db.define_table('algorithm',
 )
 
 db.algorithm.name.requires = IS_NOT_EMPTY()
-#db.algorithm.author.requires = IS_IN_DB(db, db.user.id, '%(name)s')
 db.algorithm.author.readable = db.algorithm.author.writable = False
 db.algorithm.date_created.readable = db.algorithm.date_created.writable = False
 db.algorithm.code.requires = IS_NOT_EMPTY()
