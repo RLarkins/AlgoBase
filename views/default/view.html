@@ -1,6 +1,6 @@
 {{extend 'layout.html'}}
 <h1>{{=algo.name}}</h1>
-<h3>Written by: {{=algo.author.name}}</h3>
+<h3>Written by: {{=algo.author.username}}</h3>
 <br/>
 <p>{{=algo.code}}</p>
 <br/>
@@ -8,7 +8,7 @@
 <h4>Comments:</h4>
   <p>
   {{for comment in comments:}}
-    <p>{{=comment.author.name}} says <i>{{=comment.body}}</i></p>
+    <p>{{=comment.author.username}} says <i>{{=comment.body}}</i></p>
   {{pass}}
   </p>
 {{else:}}
