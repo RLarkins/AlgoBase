@@ -2,18 +2,26 @@
 <h1>{{=algo.name}}</h1>
 <h3>Written by: {{=algo.author.username}}</h3>
 <br/>
-<p>{{=algo.code}}</p>
+<p>{{=XML(algo.code.replace('\n','<br>'),sanitize=True)}}  </p>
+<br/>
+<h4>Average rating:</h4>
+{{if algo.times_rated > 0:}}
+<p>{{=round(algo.rating_total / algo.times_rated, 1)}}</p>
+{{else:}}
+<p>No ratings yet</p>
+{{pass}}
 <br/>
 {{if len(comments):}}
 <h4>Comments:</h4>
-  <p>
+  <div>
   {{for comment in comments:}}
     <p>{{=comment.author.username}} says <i>{{=comment.body}}</i></p>
   {{pass}}
-  </p>
+  </div>
 {{else:}}
   <h4>No comments posted yet</h4>
 {{pass}}
 <br/>
 <h4>Add comment here:</h4>
+{{=rate}}
 {{=form}}

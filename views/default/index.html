@@ -106,6 +106,7 @@
 <div id='bottom'>
 	<div id='leftside'>
         	LIST OF ALGOS/SEARCH HERE
+        {{=form}}
         {{for category in categories:}}
         	<div class='categorybox'>
         	{{=category.name}}
@@ -133,8 +134,8 @@
         <div id='news'>
             <p>This is a work in progress. We apologize for any inconveniences.</p>
         </div>
-        <div id='lastpost'>Last Post</div>
-        <div id='whoseonline'>Who is online</div>
+        <div id='lastpost'><u>{{if lastcomment != None:}}{{=lastcomment.author.username}}</u> says this in regards to <b>{{=A(lastcomment.algorithm.name, _href=URL("view", args=lastcomment.algorithm.id))}}</b>:<br>{{=lastcomment.body}}{{pass}}</div>
+        <div id='whoseonline'>Who is online:{{if onlineusers != None:}} {{for user in onlineusers:}} <br> {{=user.username}} {{pass}} {{pass}} </div>
     
     		
     </div>

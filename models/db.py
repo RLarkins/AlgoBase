@@ -52,6 +52,8 @@ db.define_table(
           readable=False, label='Password'),
     Field('date_joined', 'datetime', writable=False, 
           readable=False, default=datetime.utcnow()),
+    Field('last_access', 'datetime', writable=True, 
+          readable=False, default=datetime.utcnow()),
     Field('registration_key', length=512,                # required
           writable=False, readable=False, default=''),
     Field('reset_password_key', length=512,              # required
@@ -67,6 +69,7 @@ custom_auth_table.password.requires = [IS_STRONG(), CRYPT()]
 custom_auth_table.email.requires = [
   IS_EMAIL(error_message=auth.messages.invalid_email),
   IS_NOT_IN_DB(db, custom_auth_table.email)]
+custom_auth_table.last_access.readable=custom_auth_table.last_access.writable = False
 
 auth.settings.table_user = custom_auth_table # tell auth to use custom_auth_table
 
@@ -103,12 +106,16 @@ db.define_table('algorithm',
     Field('author', db.auth_user, default=auth.user_id),
     Field('date_created', 'datetime', default=datetime.utcnow()),
     Field('code', 'text'),
+    Field('rating_total', 'double', default=0),
+    Field('times_rated', 'integer', default=0),
     format = '%(name)s'
 )
 
 db.algorithm.name.requires = IS_NOT_EMPTY()
 db.algorithm.author.readable = db.algorithm.author.writable = False
 db.algorithm.date_created.readable = db.algorithm.date_created.writable = False
+db.algorithm.rating_total.readable=db.algorithm.rating_total.writable=False
+db.algorithm.times_rated.readable=db.algorithm.times_rated.writable=False
 db.algorithm.code.requires = IS_NOT_EMPTY()
 
 db.define_table('comment',
