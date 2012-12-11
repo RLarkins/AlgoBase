@@ -1,16 +1,78 @@
 {{extend 'layout.html'}}
+
+<style>
+    #title{
+        float: left;
+        height: 100%;
+        width: 100%;
+        padding: 0px 0px 10px 10px;
+        text-align: left;
+        border-style: dotted;
+        border-width: 0px 0px 3px 3px;
+    }    
+    #code_body{
+        float: left;
+        height: 190px;
+        width: 60%;
+        margin: 20px 0px 0px 0px;
+        padding: 0px 10px 10px 10px;
+        text-align: left;
+        border-style: dotted;
+        border-width: 2px 2px 2px 2px;
+        overflow-y: scroll;
+    }
+    #ratings{
+        float: right;
+        height: 100%;
+        width: 30%;
+        margin: 20px 0px 0px 20px;
+        padding: 0px 10px 10px 10px;
+        text-align: left;
+        border-style: dotted;
+        border-width: 1px 1px 1px 1px;
+    }
+    #comment_list{
+        float: right;
+        height: 100px;
+        width: 30%;
+        padding: 0px 10px 10px 10px;
+        margin: 20px 0px 0px 20px;
+        text-align: left;
+        border-style: dotted;
+        border-width: 1px 1px 1px 1px;
+        overflow-y: scroll;
+    }
+    #comment_form{
+        float: left;
+        clear: both;
+        height: 100%;
+        width: 60%;
+        padding: 0px 10px 10px 10px;
+        margin: 10px 0px 0px 0px;
+        text-align: left;
+        border-style: dotted;
+        border-width: 1px 1px 1px 1px;
+    }
+</style>
+<div id='title'>
 <h1>{{=algo.name}}</h1>
 <h3>Written by: {{=algo.author.username}}</h3>
+</div>
 <br/>
+<div id='code_body'>
 <p>{{=XML(algo.code.replace('\n','<br>'),sanitize=True)}}  </p>
+</div>
 <br/>
+<div id='ratings'>
 <h4>Average rating:</h4>
 {{if algo.times_rated > 0:}}
 <p>{{=round(algo.rating_total / algo.times_rated, 1)}}</p>
 {{else:}}
 <p>No ratings yet</p>
 {{pass}}
+</div>
 <br/>
+<div id='comment_list'>
 {{if len(comments):}}
 <h4>Comments:</h4>
   <div>
@@ -21,7 +83,10 @@
 {{else:}}
   <h4>No comments posted yet</h4>
 {{pass}}
+</div>
 <br/>
+<div id='comment_form'>
 <h4>Add comment here:</h4>
 {{=rate}}
 {{=form}}
+</div>
